@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component("email")
-@Primary
+//@Primary
 @Order(2)
 public class EmailNotifier implements Notifier {
 
