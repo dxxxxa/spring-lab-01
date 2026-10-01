@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: spring-lab
+
+server:
+  port: 8080
+
+app:
+  owner: Arman Tolendinov
+  group: <IT1-2408IS>
+
+  mail:
+    from: no-reply@iitu.kz
+    retry-count: 1
+    timeout: 5s
+    enabled: true
+
+  cache:
+    ttl: 10m
+    max-entries: 1000
+
+logging:
+  level:
+    kz.iitu: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,env,configprops,conditions
