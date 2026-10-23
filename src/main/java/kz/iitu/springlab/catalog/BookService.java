@@ -1,3 +1,4 @@
+
 package kz.iitu.springlab.catalog;
 
 import java.util.List;
@@ -28,6 +29,12 @@ public class BookService {
 
     public Optional<Book> findById(long id) {
         return repository.findById(id);
+    }
+
+    public Book getByIdOrThrow(long id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new BookNotFoundException("Book with id " + id + " not found"));
     }
 
     public Book create(Book book) {

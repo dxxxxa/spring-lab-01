@@ -1,8 +1,11 @@
+
 package kz.iitu.springlab.web;
 
 import java.net.URI;
 import java.util.List;
 
+import kz.iitu.springlab.catalog.Book;
+import kz.iitu.springlab.catalog.BookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +16,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import kz.iitu.springlab.catalog.Book;
-import kz.iitu.springlab.catalog.BookService;
 
 @RestController
 @RequestMapping("/api/books")
@@ -40,15 +40,11 @@ public class BookRestController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Book> find(@PathVariable long id) {
-
-        return service.findById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(service.getByIdOrThrow(id));
     }
 
     @PostMapping
     public ResponseEntity<Book> create(@RequestBody Book book) {
-
         Book saved = service.create(book);
 
         return ResponseEntity
@@ -68,23 +64,23 @@ public class BookRestController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-
         if (service.delete(id)) {
             return ResponseEntity.noContent().build();
         }
 
         return ResponseEntity.notFound().build();
     }
+
     @PostMapping("/bulk")
     public ResponseEntity<List<Book>> createBulk(
-        @RequestBody List<Book> books) {
+            @RequestBody List<Book> books) {
 
-         List<Book> saved = books.stream()
-            .map(service::create)
-            .toList();
+        List<Book> saved = books.stream()
+                .map(service::create)
+                .toList();
 
-         return ResponseEntity
-            .created(URI.create("/api/books"))
-            .body(saved);
-}
+        return ResponseEntity
+                .created(URI.create("/api/books"))
+                .body(saved);
+    }
 }
