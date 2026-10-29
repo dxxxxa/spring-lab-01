@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import java.time.Instant;
+import kz.iitu.springlab.catalog.Genre;
 
 import kz.iitu.springlab.catalog.Book;
 import kz.iitu.springlab.catalog.BookService;
@@ -41,7 +43,14 @@ public class BookPageController {
             RedirectAttributes redirect) {
 
         Book saved = service.create(
-                new Book(null, title, author, year)
+                new Book(
+        null,
+        title,
+        author,
+        year,
+        Genre.OTHER,
+        Instant.now()
+)
         );
 
         redirect.addFlashAttribute(
